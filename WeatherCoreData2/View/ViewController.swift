@@ -126,6 +126,7 @@ class ViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .systemYellow // Чомусь не спрацьовує колір
    }
     
+    //button
     @objc func getWeather() {
         let city = cityTextField.text
         if let city = city {
@@ -208,6 +209,7 @@ class ViewController: UIViewController {
     
     // MARK: - Private
     
+    //витягуємо дані з API
     private func getWeatherFromNetwork(_ city: String) {
         Network.shared.getWeather(city) { [weak self] (weather, error) in
             DispatchQueue.main.async {
@@ -246,7 +248,9 @@ class ViewController: UIViewController {
         windSpeedLabel.text = nil
     }
     
-    //for CoreData
+    // MARK: - CoreData
+ 
+    // запис даних
         func createData(_ city: String) {
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             let managedContext = appDelegate.persistentContainer.viewContext
@@ -279,14 +283,6 @@ class ViewController: UIViewController {
                     }
                 }
             }
-            //        user.setValue(cityTextField.text, forKey: "nameCity")
-            //        user.setValue(temperatureLabel.text, forKey: "temperatures")
-            //        user.setValue(feelsLikeLabel.text, forKey: "feelsLike")
-            //        user.setValue(weatherDescriptionLabel.text, forKey: "descriptions")
-            //        user.setValue(pressureLabel.text, forKey: "pressures")
-            //        user.setValue(humidityLabel.text, forKey: "humidities")
-            //        user.setValue(windSpeedLabel.text, forKey: "windSpeed")
-            
             do {
                 try managedContext.save()
             } catch let error as NSError {
@@ -294,7 +290,7 @@ class ViewController: UIViewController {
             }
         }
 
-
+    // зчитування даних
     func retrieveData() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
